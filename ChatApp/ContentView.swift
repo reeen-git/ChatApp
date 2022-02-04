@@ -34,7 +34,7 @@ struct ContentView: View {
                             viewModel.markAsUnread(!chat.hasUnreadMessage, chat: chat)
                         }) {
                             if chat.hasUnreadMessage {
-                                Label("Read", systemImage: "text.bubble")
+                                Label("Read", systemImage: "text.bubble.fill")
                             } else {
                                 Label("Unread", systemImage: "circle.fill")
                             }
