@@ -12,13 +12,34 @@ struct ChatView: View {
     let chat: Chat
     var body: some View {
         VStack(spacing: 0) {
-            Text("Helo")
+            GeometryReader { reader in
+                ScrollView {
+                    getMessageView(viewWidth: reader.size.width)
+                }
+            }.background(Color.yellow)
             
         }
         .padding(.top, 1)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.markAsUnread(false, chat: chat)
+        }
+    }
+    let culumns = [GridItem(.flexible(minimum: 10))]
+    func getMessageView(viewWidth: CGFloat) -> some View {
+        LazyVGrid(columns: culumns, spacing: 0) {
+            ForEach(chat.message) { message in
+                let isReceived = message.type == .Received
+                HStack {
+                    ZStack {
+                        Text(message.text)
+                    }
+                    .frame(width: viewWidth * 0.7, alignment: isReceived ? .leading : .trailing)
+                    .padding(.vertical)
+                    .background(Color.blue)
+                }
+                .frame(maxWidth: .infinity, alignment: isReceived ? .leading : .trailing)
+            }
         }
     }
 }
